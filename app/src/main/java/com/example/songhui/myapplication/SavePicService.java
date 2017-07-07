@@ -7,6 +7,8 @@ import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.example.songhui.savefile.FileUtil;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -40,7 +42,7 @@ public class SavePicService extends Service {
         length = intent.getIntExtra("length", 0);
 //        MyThread thread = new MyThread(mCurrentPhotoPath, bytes, length);
 //        thread.start();
-        saveJpgInService(mCurrentPhotoPath, bytes, length);
+        new FileUtil().saveJpg(mCurrentPhotoPath, bytes, length);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -57,9 +59,8 @@ public class SavePicService extends Service {
         @Override
         public void run() {
             super.run();
-            saveJpgInService(mCurrentPhotoPath, bytes, length);
+            new FileUtil().saveJpg(mCurrentPhotoPath, bytes, length);
             stopSelf();
         }
     }
-    public native void saveJpgInService(String savePath, byte[] jpg, int length);
 }

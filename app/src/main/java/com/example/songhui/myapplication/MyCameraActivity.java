@@ -14,6 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.songhui.savefile.FileUtil;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -108,7 +110,7 @@ public class MyCameraActivity extends AppCompatActivity {
                 intent.putExtra("length", length);
                 startService(intent);*/
 
-                saveJpg(mCurrentPhotoPath, bytes, length);
+                new FileUtil().saveJpg(mCurrentPhotoPath, bytes, length);
 
                 /*MyThread thread = new MyThread(mCurrentPhotoPath, bytes, length);
                 thread.start();*/
@@ -133,7 +135,7 @@ public class MyCameraActivity extends AppCompatActivity {
         @Override
         public void run() {
             super.run();
-            saveJpg(mCurrentPhotoPath, bytes, length);
+            new FileUtil().saveJpg(mCurrentPhotoPath, bytes, length);
         }
     }
 
@@ -214,10 +216,4 @@ public class MyCameraActivity extends AppCompatActivity {
             camera = null;
         }
     }
-
-    static {
-        System.loadLibrary("native-lib");
-    }
-
-    public native void saveJpg(String savePath, byte[] jpg, int length);
 }
